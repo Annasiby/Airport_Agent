@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Left pane */
+        .left-pane {
+            width: 250px;
+            background-color: #1d3557;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .left-pane h2 {
+            margin-bottom: 20px;
+        }
+
+        .left-pane a {
+            text-decoration: none;
+            color: white;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .left-pane a:hover {
+            background-color: #457b9d;
+        }
+
+        /* Report section */
+        .report-section {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            overflow-y: auto;
+        }
+
+        .report-section h1 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .report-details {
+            margin-bottom: 20px;
+        }
+
+        .report-details p {
+            font-size: 1rem;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .summary-content {
+            background-color: #f2f2f2;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            white-space: pre-wrap; /* To preserve line breaks */
+        }
+
+        .back-button {
+            margin-top: 20px;
+        }
+
+        .back-button a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #1d3557;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .back-button a:hover {
+            background-color: #457b9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left pane -->
+        <div class="left-pane">
+            <h2>Dashboard</h2>
+            <a href="/activity">Activity</a>
+            <a href="/report">Reports</a>
+        </div>
+
+        <!-- Report section -->
+        <div class="report-section">
+            <h1>Conversation Report</h1>
+
+            <div class="report-details">
+                <p><strong>User ID:</strong> {{ report.user_id }}</p>
+                <p><strong>Summary:</strong></p>
+                <div class="summary-content">
+                    {% if report.summary %}
+                        {{ report.summary }}
+                    {% else %}
+                        No summary available.
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="back-button">
+                <a href="/">Back to Chat</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

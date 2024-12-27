@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airport AI Assistant</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Left pane */
+        .left-pane {
+            width: 250px;
+            background-color: #1d3557;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .left-pane h2 {
+            margin-bottom: 20px;
+        }
+
+        .left-pane a {
+            text-decoration: none;
+            color: white;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .left-pane a:hover {
+            background-color: #457b9d;
+        }
+
+        /* Chat section */
+        .chat-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background-color: #a8dadc;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f4f4f9;
+        }
+
+        .chat-box .message {
+            margin-bottom: 15px;
+        }
+
+        .chat-box .bot {
+            background-color: #e9ecef;
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 60%;
+            text-align: left;
+        }
+
+        .chat-box .user {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            max-width: 60%;
+            text-align: right;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #ffffff;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Scroll styling */
+        .chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background-color: #007bff;
+            border-radius: 4px;
+        }
+
+        .chat-box::-webkit-scrollbar-track {
+            background-color: #f4f4f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left pane -->
+        <div class="left-pane">
+            <h2>Dashboard</h2>
+            <a href="/activity">Activity</a>
+            <a href="/report">Reports</a>
+        </div>
+
+        <!-- Chat section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                Airport AI Assistant
+            </div>
+            <div class="chat-box" id="messages">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get the user ID from the template (this is passed dynamically from Flask)
+        const userId = "{{ user_id }}"; // Flask will inject the user_id here
+
+        async function sendMessage() {
+            const userMessage = document.getElementById('user-input').value;
+            if (userMessage.trim() === '') return;
+            //Save question and timestamp to localStorage
+            const timestamp = new Date().toLocaleString();
+            const activity = { question: userMessage, timestamp: timestamp };
+            const activityLog = JSON.parse(localStorage.getItem('activityLog')) || [];
+            activityLog.push(activity);
+            localStorage.setItem('activityLog', JSON.stringify(activityLog));
+            // Display user message
+            const messages = document.getElementById('messages');
+            messages.innerHTML += `<div class="message user">${userMessage}</div>`;
+            messages.scrollTop = messages.scrollHeight;
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMessage, user_id: userId }) // Pass the user_id in the request
+                });
+                const data = await response.json();
+
+                // Display bot response
+                messages.innerHTML += `<div class="message bot">${data.response}</div>`;
+                messages.scrollTop = messages.scrollHeight;
+            } catch (error) {
+                messages.innerHTML += `<div class="message bot">Sorry, something went wrong.</div>`;
+                console.error('Error:', error);
+            }
+
+            document.getElementById('user-input').value = '';
+        }
+        function cleanAIResponse(response) {
+            // Remove "AI:" prefix if it exists
+            return response.replace(/^AI:\s*/, '');
+        }
+    </script>
+</body>
+</html>

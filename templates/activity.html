@@ -1,0 +1,121 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Log</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Left pane */
+        .left-pane {
+            width: 250px;
+            background-color: #1d3557;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-pane h2 {
+            margin-bottom: 20px;
+        }
+
+        .left-pane a {
+            text-decoration: none;
+            color: white;
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .left-pane a:hover {
+            background-color: #457b9d;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1d3557;
+        }
+
+        .activity-list {
+            max-width: 100%;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .activity-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .timestamp {
+            color: #999;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left pane -->
+        <div class="left-pane">
+            <h2>Dashboard</h2>
+            <a href="/activity">Activity</a>
+            <a href="/report">Reports</a>
+        </div>
+
+        <!-- Main content area -->
+        <div class="main-content">
+            <h1>Recent Activities</h1>
+            <div class="activity-list" id="activityList">
+                <!-- Activity items will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const activityList = document.getElementById('activityList');
+            const activityLog = JSON.parse(localStorage.getItem('activityLog')) || [];
+
+            activityLog.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.classList.add('activity-item');
+                activityItem.innerHTML = `
+                    <p><strong>Question:</strong> "${activity.question}"</p>
+                    <p class="timestamp">Timestamp: ${activity.timestamp}</p>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        });
+    </script>
+</body>
+</html>

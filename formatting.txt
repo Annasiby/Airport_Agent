@@ -1,0 +1,21 @@
+function formatResponse(text) {
+            text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/### (.*)/g, '<h1>$1</h1>');
+            const paragraphs = text.split('\n\n');
+            let html = '';
+            paragraphs.forEach(paragraph => {
+                if (paragraph.includes('\n-')) {
+                    const [intro, ...points] = paragraph.split('\n');
+                    html += `<p>${intro}</p>`;
+                    const listItems = points
+.filter(point => point.trim())
+                        .map(point => `<li>${point.replace(/^-\s*/, '')}</li>`)
+                        .join('');
+                        
+                    html += `<ul>${listItems}</ul>`;
+                } else {
+                    html += `<p>${paragraph.replace(/\n/g, '<br>')}</p>`;
+                }
+            });
+            return html;
+        }
+jaz-hixr-zwa
