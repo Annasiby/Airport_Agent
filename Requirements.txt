@@ -2,6 +2,5 @@ Flask
 flask-cors
 langchain-google-genai
 langchain
-langsmith
 python-dotenv
 aviationstack
