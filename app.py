@@ -1,10 +1,14 @@
-
 from flask import Flask, request, jsonify, render_template, session
 import os
 import requests
 import re
 from uuid import uuid4
 from datetime import datetime
+import random
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+import io
+import base64
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
@@ -122,6 +126,7 @@ def home():
     print("Session User ID:", session['user_id'])
     return render_template('index.html', user_id=session['user_id'])
 
+
 @app.route('/report', methods=['GET'])
 def generate_report():
     # Sample data from a conversation with the Airport AI Agent
@@ -197,8 +202,6 @@ def generate_report():
 
 
 
-
-
 @app.route('/chat', methods=['POST'])
 def chat():
     """
@@ -260,6 +263,7 @@ def debug_history():
     """
     memory_variables = entity_memory.load_memory_variables({})
     return jsonify(memory_variables)
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
