@@ -124,30 +124,79 @@ def home():
 
 @app.route('/report', methods=['GET'])
 def generate_report():
-    """
-    Generate a report with the conversation summary.
-    """
-    try:
-        user_id = session.get('user_id', 'Unknown User')
-        print("User ID for Report:", user_id)  # Debug user ID
+    # Sample data from a conversation with the Airport AI Agent
+    queries = ['Flight Status', 'Baggage Status', 'Gate Information', 'Check-in Assistance', 'Flight Delay']
+    responses = ['On Time', 'Delayed', 'Gate A5', 'Checked In', 'Delayed']
+    response_times = [random.randint(1, 5) for _ in range(5)]  # Simulated response times (in seconds)
+    satisfaction_scores = [random.randint(1, 5) for _ in range(5)]  # Satisfaction scores (1-5 scale)
 
-        summary = summarize_conversation()
-        if "An error occurred" in summary:
-            print("Error during summarization:", summary)  # Debug log
-            summary = "No valid summary generated."
+    # Create a Bar chart for response times
+    fig1 = go.Figure(data=go.Bar(x=queries, y=response_times, name='Response Time (seconds)', marker_color='blue'))
+    fig1.update_layout(
+        title="Response Time for Queries",
+        xaxis_title="Query Type",
+        yaxis_title="Response Time (seconds)",
+        template="plotly_dark"
+    )
 
-       
-        # Creating report data with more details
-        report_data = {
-            "user_id": user_id,
-            "summary": summary,
-           
-        }
+    # Create a Bar chart for satisfaction scores
+    fig2 = go.Figure(data=go.Bar(x=queries, y=satisfaction_scores, name='Satisfaction Score', marker_color='green'))
+    fig2.update_layout(
+        title="User Satisfaction Scores",
+        xaxis_title="Query Type",
+        yaxis_title="Satisfaction (1-5)",
+        template="plotly_dark"
+    )
 
-        return render_template('report.html', report=report_data)
-    except Exception as e:
-        print(f"Error generating report: {e}")  # Debug log
-        return f"Error generating report: {e}", 500
+    # Create a Pie chart for query types distribution
+    query_counts = {'Flight Status': queries.count('Flight Status'), 
+                    'Baggage Status': queries.count('Baggage Status'),
+                    'Gate Information': queries.count('Gate Information'),
+                    'Check-in Assistance': queries.count('Check-in Assistance'),
+                    'Flight Delay': queries.count('Flight Delay')}
+
+    fig3 = go.Figure(data=go.Pie(labels=list(query_counts.keys()), values=list(query_counts.values()), name="Query Distribution"))
+    fig3.update_layout(
+        title="Query Type Distribution",
+        template="plotly_dark"
+    )
+
+    # Show the figures (graphs)
+    fig1.show()
+    fig2.show()
+    fig3.show()
+
+    # Generate a summary report text
+    summary_report = """
+    Airport AI Agent Conversation Report:
+    
+
+    1. Total Number of Queries: 5
+    2. Average Response Time: {:.2f} seconds
+    3. Average Satisfaction Score: {:.2f}
+
+
+    Query Breakdown:
+    - Flight Status: 1 query
+    - Baggage Status: 1 query
+    - Gate Information: 1 query
+    - Check-in Assistance: 1 query
+    - Flight Delay: 1 query
+
+
+    Response Time and Satisfaction Scores:
+    - Flight Status: 2 seconds, Satisfaction: 4
+    - Baggage Status: 3 seconds, Satisfaction: 5
+    - Gate Information: 1 second, Satisfaction: 4
+    - Check-in Assistance: 4 seconds, Satisfaction: 3
+    - Flight Delay: 5 seconds, Satisfaction: 2
+    """.format(sum(response_times)/len(response_times), sum(satisfaction_scores)/len(satisfaction_scores))
+
+    # Return the summary report text
+    return summary_report
+
+
+
 
 
 @app.route('/chat', methods=['POST'])
