@@ -3,4 +3,4 @@ flask-cors
 langchain-google-genai
 langchain
 python-dotenv
-aviationstack
+
