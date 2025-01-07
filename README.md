@@ -206,8 +206,7 @@ Minnu Anna Siby
 Hosting Platform
 The project is deployed on Render (render.com).
 
-Post-Deployment
-Once deployed: Access the web application via the Render-provided URL https://airport-agent.onrender.com
+Access the web application via the Render-provided URL https://airport-agent.onrender.com
 
 ---
 
