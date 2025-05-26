@@ -1,14 +1,11 @@
+## Airport AI Agent
 
- Airport AI Agent
-
-Project Description
+# Project Description
 
 The Airport AI Agent is an AI-powered virtual assistant designed to streamline airport operations by providing conversational support for passengers. It utilizes advanced natural language processing (NLP) models and integrates third-party APIs to offer services such as flight schedules, health recommendations, and task automation.
-
-
 ---
 
-Features
+# Features
 
 1. Flight Schedule Assistance:
 
