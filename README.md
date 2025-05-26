@@ -1,22 +1,20 @@
-## Airport AI Agent
+# Airport AI Agent
 
-# Project Description
+## Project Description
 
 The Airport AI Agent is an AI-powered virtual assistant designed to streamline airport operations by providing conversational support for passengers. It utilizes advanced natural language processing (NLP) models and integrates third-party APIs to offer services such as flight schedules, health recommendations, and task automation.
 ---
 
-# Features
+## Features
 
 1. Flight Schedule Assistance:
 
 Provides up-to-date flight information using AviationStack API.
 
 
-
 2. Conversation Memory:
 
 Maintains and uses conversation context to deliver personalized responses using LangChain's entity memory.
-
 
 
 3. Health Recommendations:
@@ -30,14 +28,9 @@ Handles queries related to common health concerns.
 Generates conversation summaries and graphical reports for user insights.
 
 
-
 5. Activity Logs:
 
 Tracks and displays user activity for better monitoring.
-
-
-
-
 
 ---
 
@@ -55,7 +48,7 @@ Project Structure
 
 ---
 
-Prerequisites
+## Prerequisites
 
 Python 3.10 or higher
 
@@ -63,11 +56,9 @@ Pip package manager
 
 Internet access for API calls
 
-
-
 ---
 
-Installation and Setup
+## Installation and Setup
 
 1. Clone the repository:
 
@@ -97,19 +88,16 @@ AVIATIONSTACK_API_KEY=<your_aviationstack_api_key>
 
 
 
-5. Run the application:
+## 5. Run the application:
 
 python app.py
 
 Access the app at http://127.0.0.1:5000 in your browser.
 
 
-
-
-
 ---
 
-Usage
+## Usage
 
 Chat Interface
 
@@ -166,7 +154,7 @@ Check if the Flask app is running and accessible at the specified URL.
 
 ---
 
-Technologies Used
+## Technologies Used
 
 Python
 
@@ -186,14 +174,14 @@ HTML/CSS
 
 ---
 
-License
+## License
 
 This project is licensed under the MIT License. See LICENSE.txt for details.
 
 
 ---
 
-Contributor
+## Contributor
 
 Minnu Anna Siby
 
